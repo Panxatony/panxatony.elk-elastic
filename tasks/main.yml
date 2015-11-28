@@ -1,2 +1,14 @@
 ---
 # tasks file for panxatony.elk-elastic
+
+- name: create elastic repo file
+  template: src=elasticsearc-repo.j2 dest="/etc/yum.repos.d/elasticsearch.repo"
+
+# install elasticsearch rpm
+- name: install elasticsearch
+  yum: name={{item}} state=present
+  with_items:
+     - elasticsearch
+
+# start service elasticsearch if not running
+- service: name=elasticsearch state=started enabled=yes
