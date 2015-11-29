@@ -1,7 +1,7 @@
 ---
 # defaults file for panxatony.elk-elastic
 
-elastic_version: 2.1
+elastic_version: 2.x
 elastic_repo_base_url: http://packages.elastic.co/elasticsearch/{{ elastic_version }}/centos
 elastic_repo_gpg_key_url: http://packages.elastic.co/GPG-KEY-elasticsearch
 
