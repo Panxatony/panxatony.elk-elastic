@@ -1,2 +1,5 @@
 ---
 # handlers file for panxatony.elk-elastic
+
+- name: restart elasticsearch
+  service: name=elasticsearch state=restarted
