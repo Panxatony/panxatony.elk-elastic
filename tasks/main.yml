@@ -3,31 +3,43 @@
 
 - name: create elastic repo file
   template: src=elasticsearc-repo.j2 dest="/etc/yum.repos.d/elasticsearch.repo"
+  become: yes
+  become_user: root
   tags:
     - elasticsearch
 
 # install elasticsearch rpm
 - name: install elasticsearch
   yum: name={{item}} state=present
+  become: yes
+  become_user: root
   with_items:
     - elasticsearch
 
 - name: Configure Elasticsearch - Restrict outside access to instance
   lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml regexp='# discovery.zen.ping.multicast.enabled: false' insertafter='# discovery.zen.ping.multicast.enabled: false' line='discovery.zen.ping.multicast.enabled: false' state=present"
+  become: yes
+  become_user: root
   tags:
     - elasticsearch
 
 - name: Configure Elasticsearch - Restrict outside access
   lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml regexp='#network.host: 192.168.0.1' insertafter='#network.host: 192.168.0.1' line='network.host: localhost'"
+  become: yes
+  become_user: root
   tags:
     - elasticsearch
 
 - name: Replace Elasticsearch PID directory
   lineinfile: dest=/etc/init.d/elasticsearch regexp="PID_DIR\=" line='PID_DIR="/var/run"'
+  become: yes
+  become_user: root
   tags:
     - elasticsearch
 
 # start service elasticsearch if not running
 - service: name=elasticsearch state=started enabled=yes
+  become: yes
+  become_user: root
   tags:
     - elasticsearch
